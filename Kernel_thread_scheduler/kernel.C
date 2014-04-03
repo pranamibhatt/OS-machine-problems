@@ -33,7 +33,7 @@
 
 /* -- UNCOMMENT THE FOLLOWING LINE TO MAKE THREADS TERMINATING */
 
-//#define _TERMINATING_FUNCTIONS_
+#define _TERMINATING_FUNCTIONS_
 /* This macro is defined when we want the thread functions to return, and so
    terminate their thread.
    Otherwise, the thread functions don't return, and the threads run forever.
@@ -117,6 +117,13 @@ Thread * thread4;
 
 /* -- THE 4 FUNCTIONS fun1 - fun4 ARE LARGELY IDENTICAL. */
 
+void sleep()
+{
+	for(int k = 0; k < 6000000; k++)
+		{
+		}
+}
+
 void fun1() {
     Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
     Console::puts("FUN 1 INVOKED!\n");
@@ -131,6 +138,8 @@ void fun1() {
         for (int i = 0; i < 10; i++) {
             Console::puts("FUN 1: TICK ["); Console::puti(i); Console::puts("]\n");
         }
+	Console::puts("yielding to thread \n");
+	sleep();
         pass_on_CPU(thread2);
     }
 }
@@ -150,6 +159,9 @@ void fun2() {
         for (int i = 0; i < 10; i++) {
             Console::puts("FUN 2: TICK ["); Console::puti(i); Console::puts("]\n");
         }
+	// delay
+	Console::puts("yielding to thread \n");
+	sleep();
         pass_on_CPU(thread3);
     }
 }
@@ -163,6 +175,8 @@ void fun3() {
         for (int i = 0; i < 10; i++) {
 	    Console::puts("FUN 3: TICK ["); Console::puti(i); Console::puts("]\n");
         }
+	Console::puts("yielding to thread \n");
+	sleep();
         pass_on_CPU(thread4);
     }
 }
@@ -176,6 +190,8 @@ void fun4() {
         for (int i = 0; i < 10; i++) {
 	    Console::puts("FUN 4: TICK ["); Console::puti(i); Console::puts("]\n");
         }
+	Console::puts("yielding to thread \n");
+	sleep();
         pass_on_CPU(thread1);
     }
 }
