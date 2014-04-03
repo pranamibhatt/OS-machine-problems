@@ -9,25 +9,29 @@
 #include "machine.H"
 #include "utils.H" // memset
 
+#define MAX_THREADS 10
 /* class declaration*/
 
 // ready queue
 class Rqueue
 {
+	// an array of pointers to an array of threads
 	Thread **queue;
-	int num_threads;		
+	// index to the front and back of the queue
+	int head, tail;
 	public :
 	// insert into the q
-	void insert (Thread *);
+	void enqueue (Thread *);
 	// delete from the q
-	Thread * pop ();
+	Thread * dequeue ();
 	// for terminate
 	void remove (Thread *);
 	Rqueue()
 	{
-		num_threads = 0;
+		queue = new Thread *[MAX_THREADS];
+		head = tail = 0;
 		// making the queue 0 initially
-		//memset (queue, 0, sizeof(Thread *));
+		memset (queue, 0, sizeof(Thread *));
 	}
 		
 	

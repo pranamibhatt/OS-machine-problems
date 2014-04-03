@@ -78,7 +78,7 @@ static void thread_shutdown() {
      // thread termination interacts with the system scheduler
     // delete the current thread and dispatch control to the next thread in the queue
 	# if 1
-	SYSTEM_SCHEDULER->terminate (current_thread);
+//	SYSTEM_SCHEDULER->terminate (current_thread);
 	// free resources 
 	delete current_thread;
 	SYSTEM_SCHEDULER->yield();
@@ -93,6 +93,8 @@ static void thread_start() {
      /* This function is used to release the thread for execution in the ready queue. */
     
      /* We need to add code, but it is probably nothing more than enabling interrupts. */
+
+	// enable interrupt, change the EFLAG?
 }
 
 void Thread::setup_context(Thread_Function _tfunction){

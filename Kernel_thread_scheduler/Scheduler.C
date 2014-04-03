@@ -19,63 +19,65 @@ Scheduler :: Scheduler()
 void Scheduler :: yield ()
 {
 	// give up the CPU and dispatch control to the next thread in the ready queue
-	Thread *thr = q.pop ();	
+	Thread *thr = q.dequeue ();	
 	Thread :: dispatch_to (thr);	
 }
 
 // put thread back to the end of the queue
 void Scheduler :: resume (Thread * _thread)
 {
-	// insert thread to the end of the Q
-	q.insert (_thread);
+	// enqueue thread to the end of the Q
+	q.enqueue (_thread);
 }
 
 void Scheduler :: add (Thread * _thread)
 {
 	// make thread runnable and add it to the Q
-	q.insert (_thread);
+	q.enqueue (_thread);
 }
 
 void Scheduler :: terminate (Thread * _thread)
 {
 	// remove _thread for the queue and destroy
-	q.remove (_thread);
+	//q.remove (_thread);
 }
 
-void Rqueue :: insert (Thread * thrd)
+void Rqueue :: enqueue (Thread * thrd)
 {
 	//pushing the thread to the end of the queue
 	// queue empty?
-	if (num_threads == 0)
-		queue[0] = thrd;
+	if (head == tail)
+		
+		queue[head] = thrd;
 	else
-		queue[num_threads] = thrd;
-	num_threads++;
+		queue[tail] = thrd;
+	tail++;
 }
 
 // return the thread at the head of the q
-Thread *Rqueue :: pop ()
+Thread *Rqueue :: dequeue ()
 {
 	Thread *thr;
 	int i;
 	// remove thread from the beginning of the queue
-	if (num_threads == 0)
-	// nothing to pop
+	if (head == tail)
+	// nothing to dequeue
 		return NULL;
 	else
 	{
 	// return the thread at the head
-	thr = queue[0];
-	for (i = 1; i < num_threads; i++)
-		queue[i-1] = queue[i];	
+	thr = queue[head];
+	for (i = head; i < tail; i++)
+		queue[i-1] = queue[i];
 	// make the last place available
-	queue[num_threads-1] = 0;
-	num_threads--;
+	queue[tail-1] = 0;
+	tail--;
 	return thr; 
 	}
 	
 }
 
+#if 0
 // remove the given thread from the scheduler, needed for thread termination
 void Rqueue :: remove (Thread *thrd)
 {
@@ -98,4 +100,4 @@ void Rqueue :: remove (Thread *thrd)
 	queue[num_threads-1] = 0;
 	num_threads--;
 }
-
+#endif
