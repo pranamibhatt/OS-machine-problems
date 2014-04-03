@@ -1,0 +1,83 @@
+			Memdump module release note V 1.0.0
+			-------------------------------------
+
+INTRODUCTION:
+--------------
+
+Basically this module can be used for debugging a user application in runtime
+User can selectively dump the code/data/heap/stack segment of the running 
+user process.
+
+HOW TO BUILD THE MODULE 
+------------------------
+
+In this version module can be built only as inbuilt module to kernel,So for 
+selecting that user can follow the below steps.
+
+1. Run "make menuconfig" command from MCA_Kernel directory
+
+2. Enable MemDump Support in the follwing location
+ 
+  │ Prompt: Enable debug code (memory dumper)                                                                                                                       │  
+  │   Defined at memdump/Kconfig:3                                                                                                                                  │  
+  │   Depends on: MACH_KZMA9 [=y]                                                                                                                                   │  
+  │   Location:                                                                                                                                                     │  
+  │     -> Device Drivers                                                                                                                                           │  
+  │       -> MemDump Support                                                                                                                                        │  
+
+3. save and exit 
+
+4. Give a "make"
+ 
+5.Copy the uImage and boot kzma9 card with this 
+
+CHECKING MODULE VALIDITY 
+------------------------
+
+1.You can ensure the module is properly inserted into kernel
+by running follwoing command
+
+# cat > /proc/memdump
+
+If mdoule properly inserted it will return 
+
+Hi Memdump V 1.0.0 alive!
+
+DUMPING PROCESS SEGMENTS
+--------------------------
+1.User can run following command in target card for dumping the 
+process segments.
+
+# echo <pid> <seg_to_dump> /proc/memdump
+
+ex: if you want to dump of application pid 213 
+
+then run like
+	
+#echo 213 code > /proc/memdump
+	
+OUTPUT
+-----
+if pid is valid you will get the segment dump under 
+
+/tmp/<process_name>_<seg_name>_time_stamp format.
+
+other wise you will get kernel error
+
+VERIFICATION
+------------
+for verification of this dump,we can either use gdb or objdump
+
+1.run objdump <process_name> it will list all the segments in your 
+  process and you can cross check verify the value in that dump from
+  memdump
+2.Run the process in gdb as like below 
+
+  #gbd <process_name>
+  #(gdb) x  < value_of_addr_needed>
+
+verify this value with memdump value 
+
+SUPPORTED PLATFORM
+----------------
+V 1.0.0 of memdump support x86 and arm architecture 

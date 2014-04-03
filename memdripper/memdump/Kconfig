@@ -1,0 +1,12 @@
+menu "MemDump Support" 
+
+config MEMDUMP
+	tristate "Enable memdump module (memory dumper)"
+	depends on MACH_KZMA9
+	select ELF_CORE
+	default n
+	help
+	MemDump is a debug tool which will allow you to dump 
+	the contents of a running user process memory. 
+
+endmenu

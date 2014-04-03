@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Musync</string>
+    <string name="action_settings">Settings</string>
+    <string name="create_station">Create a station</string>
+    <string name="join_station">Join a station</string>
+    <string name="title_activity_join_station">Join a station</string>
+    <string name="title_activity_create_station">Create a Music Station</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="station_list_header">List of Available Stations</string>
+
+</resources>
