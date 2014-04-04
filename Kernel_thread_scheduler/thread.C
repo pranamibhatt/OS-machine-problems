@@ -38,6 +38,7 @@
 
 #include "threads_low.H"
 #include "Scheduler.H"
+#include "machine.H"
 /*--------------------------------------------------------------------------*/
 /* EXTERNS */
 /*--------------------------------------------------------------------------*/
@@ -94,7 +95,8 @@ static void thread_start() {
     
      /* We need to add code, but it is probably nothing more than enabling interrupts. */
 
-	// enable interrupt, change the EFLAG?
+	// enable interrupts
+	Machine::enable_interrupts();
 }
 
 void Thread::setup_context(Thread_Function _tfunction){
@@ -210,8 +212,11 @@ void Thread::dispatch_to(Thread * _thread) {
 */
 
     /* The value of 'current_thread' is modified inside 'threads_low_switch_to()'. */
-
+    // When a context switch happens, disable interrupts
+    Machine::disable_interrupts();	
     threads_low_switch_to(_thread);
+    // After context switch, enable interrupts again
+    Machine::enable_interrupts();
 
     /* The call does not return until after the thread is context-switched back in. */
 }
