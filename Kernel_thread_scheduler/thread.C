@@ -79,7 +79,7 @@ static void thread_shutdown() {
      // thread termination interacts with the system scheduler
     // delete the current thread and dispatch control to the next thread in the queue
 	# if 1
-//	SYSTEM_SCHEDULER->terminate (current_thread);
+	SYSTEM_SCHEDULER->terminate (current_thread);
 	// free resources 
 	delete current_thread;
 	SYSTEM_SCHEDULER->yield();

@@ -143,6 +143,8 @@ void InterruptHandler::dispatch_interrupt(REGS * _r) {
   }
 
   /* Send an EOI message to the master interrupt controller. */
+ // if handled inside interrupt handler, dont do outportb
+//  if (int_no == 3) 
   outportb(0x20, 0x20);
     
 }

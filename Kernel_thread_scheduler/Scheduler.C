@@ -39,7 +39,7 @@ void Scheduler :: add (Thread * _thread)
 void Scheduler :: terminate (Thread * _thread)
 {
 	// remove _thread for the queue and destroy
-	//q.remove (_thread);
+	q.remove (_thread);
 }
 
 void Rqueue :: enqueue (Thread * thrd)
@@ -77,13 +77,13 @@ Thread *Rqueue :: dequeue ()
 	
 }
 
-#if 0
+#if 1
 // remove the given thread from the scheduler, needed for thread termination
 void Rqueue :: remove (Thread *thrd)
 {
 	int i;
 	// find the thread with the thread id	
-	for (i = 0; i < num_threads; i++)
+	for (i = head; i < tail; i++)
 	if ((queue[i]->Thread::ThreadId()) == thrd->Thread::ThreadId())
 		// found the thread in the queue
 		break;
@@ -94,10 +94,10 @@ void Rqueue :: remove (Thread *thrd)
 	// destroy the thread
 	queue[i] = 0;
 	// move the threads up one posn from i+1
-	for (int j = i+1; j < num_threads; j++)
+	for (int j = i+1; j < tail; j++)
 		queue[j-1] = queue[j];
 	// make last place available
-	queue[num_threads-1] = 0;
-	num_threads--;
+	queue[tail-1] = 0;
+	tail--;
 }
 #endif
