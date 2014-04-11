@@ -1,15 +1,18 @@
 /**	
 	Name: Scheduler.C
 	Author: Pranami Bhattacharya
-	Desc: A FIFO scheduler
+	Desc: A FIFO/RR scheduler
 
 **/
-
 
 #include "thread.H"
 #include "Scheduler.H"
 #include "console.H"
-#include "utils.H" // memmove
+#include "utils.H" 
+#include "simple_timer.H"
+#include "machine.H"
+
+extern int RRschedule;
 // Constructor
 Scheduler :: Scheduler()
 {
@@ -40,6 +43,15 @@ void Scheduler :: terminate (Thread * _thread)
 {
 	// remove _thread for the queue and destroy
 	q.remove (_thread);
+}
+
+void Scheduler :: handle_RRinterrupt (REGS *_r)
+{
+	//Console::puts("quantum has elapsed \n");
+//	resume (Thread::CurrentThread());
+  	RRschedule = 1;
+	resume (Thread::CurrentThread());
+	yield ();
 }
 
 void Rqueue :: enqueue (Thread * thrd)
@@ -100,4 +112,4 @@ void Rqueue :: remove (Thread *thrd)
 	queue[tail-1] = 0;
 	tail--;
 }
-#endif
+	#endif

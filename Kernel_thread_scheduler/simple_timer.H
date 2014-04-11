@@ -39,7 +39,7 @@ private:
   /* How long has the system been running? */
   unsigned long seconds; 
   int           ticks;   /* ticks since last "seconds" update.    */
-
+  
   /* At what frequency do we update the ticks counter? */
   int hz;                /* Actually, by defaults it is 18.22Hz.
                             In this way, a 16-bit counter wraps
@@ -49,7 +49,7 @@ private:
   /* Set the interrupt frequency for the simple timer. */
 
 public :
-
+  int RRticks;
   SimpleTimer(int _hz);
   /* Initialize the simple timer, and set its frequency. */
 

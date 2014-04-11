@@ -43,6 +43,7 @@
 /* EXTERNS */
 /*--------------------------------------------------------------------------*/
 Thread * current_thread = 0;
+int RRschedule = 0;
 // a pointer to the system scheduler
 extern Scheduler * SYSTEM_SCHEDULER;
 /* Pointer to the currently running thread. This is used by the scheduler,
@@ -96,7 +97,9 @@ static void thread_start() {
      /* We need to add code, but it is probably nothing more than enabling interrupts. */
 
 	// enable interrupts
+	#if 1
 	Machine::enable_interrupts();
+	#endif
 }
 
 void Thread::setup_context(Thread_Function _tfunction){
@@ -212,11 +215,7 @@ void Thread::dispatch_to(Thread * _thread) {
 */
 
     /* The value of 'current_thread' is modified inside 'threads_low_switch_to()'. */
-    // When a context switch happens, disable interrupts
-    Machine::disable_interrupts();	
     threads_low_switch_to(_thread);
-    // After context switch, enable interrupts again
-    Machine::enable_interrupts();
 
     /* The call does not return until after the thread is context-switched back in. */
 }

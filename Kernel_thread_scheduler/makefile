@@ -61,6 +61,7 @@ mem_pool.o: mem_pool.C mem_pool.H
 
 threads_low.o: threads_low.asm threads_low.H
 	nasm -f elf -o threads_low.o threads_low.asm
+#	nasm -f elf -o threads_low.o threads_low.asm
 
 thread.o: thread.C thread.H threads_low.H
 	$(CPP) $(CPP_OPTIONS) -c -o thread.o thread.C

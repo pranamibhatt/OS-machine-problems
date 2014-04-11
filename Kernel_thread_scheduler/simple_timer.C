@@ -23,6 +23,11 @@
 #include "console.H"
 #include "interrupts.H"
 #include "simple_timer.H"
+#include "Scheduler.H"
+#include "thread.H"
+
+int Scheduler::handle_flag;
+extern Scheduler *SYSTEM_SCHEDULER;
 
 /*--------------------------------------------------------------------------*/
 /* CONSTRUCTOR */
@@ -46,22 +51,30 @@ SimpleTimer::SimpleTimer(int _hz) {
 /* METHODS FOR CLASS   S i m p l e T i m e r */
 /*--------------------------------------------------------------------------*/
 
-
 void SimpleTimer::handle_interrupt(REGS *_r) {
 /* What to do when timer interrupt occurs? In this case, we update "ticks",
-   and maybe update "seconds".
+`   and maybe update "seconds".
    This must be installed as the interrupt handler for the timer in the 
    when the system gets initialized. (e.g. in "kernel.C") */
 
     /* Increment our "ticks" count */
     ticks++;
+    RRticks++;
+    int quantum;
+    quantum = hz/5;
+  
 
     /* Whenever a second is over, we update counter accordingly. */
     if (ticks >= hz )
     {
         seconds++;
         ticks = 0;
-        Console::puts("One second has passed\n");
+	Console::puts("One sec has passed\n");	
+	#if 1
+  	SYSTEM_SCHEDULER->resume (Thread::CurrentThread());
+//        Console::putui(Thread::CurrentThread()->ThreadId());
+	SYSTEM_SCHEDULER->yield ();
+	#endif
     }
 }
 

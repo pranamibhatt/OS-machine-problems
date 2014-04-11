@@ -41,8 +41,10 @@ class Scheduler
 {
 	// object to the queue
 	Rqueue q;
-
+	// for round robin scheduling
 	public:
+	static int handle_flag;
+	//static int RRschedule;
 	// set up the scheduler
 	Scheduler();
 
@@ -57,5 +59,7 @@ class Scheduler
 
 	//remove the thread from the scheduler
 	virtual void terminate (Thread * _thread);
-	
+
+	//handle round robin scheduling
+	virtual void handle_RRinterrupt (REGS *_r);
 };
